@@ -1,12 +1,30 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import Input from '../common/Input/Input'
 import getPosts from '../services/getPost'
 
-export default function Table() {
+const TableStyle = styled.table`
+  width: 100%;
+  border: 1px solid #000;
+  border-collapse: collapse;
+  tr {
+    border: 1px solid #000;
+    th {
+      border: 1px solid #000;
+    }
+    td {
+      border: 1px solid #000;
+    }
+  }
+`
+
+const Table = () => {
   const dispatch = useDispatch()
   const { posts, loading } = useSelector((state) => {
     return state.posts
   })
+  console.log('re-render parent component')
 
   useEffect(() => {
     dispatch(getPosts())
@@ -16,23 +34,33 @@ export default function Table() {
   if (loading) return <p>Loading...</p>
 
   return (
-    <table>
-      <tr>
-        <th>User id</th>
-        <th>Id</th>
-        <th>Title</th>
-        <th>Body</th>
-      </tr>
+    <TableStyle>
+      <thead>
+        <tr>
+          <th>User id</th>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Body</th>
+        </tr>
+      </thead>
       {posts.map((post) => {
         return (
-          <tr>
-            <td>{post.userId}</td>
-            <td>{post.id}</td>
-            <td>{post.title}</td>
-            <td>{post.body}</td>
-          </tr>
+          <tbody key={post.id}>
+            <tr>
+              <td>{post.userId}</td>
+              <td>{post.id}</td>
+              <td>
+                <Input content={post.title} />
+              </td>
+              <td>
+                <Input content={post.body} />
+              </td>
+            </tr>
+          </tbody>
         )
       })}
-    </table>
+    </TableStyle>
   )
 }
+
+export default Table

@@ -1,5 +1,5 @@
 {
-  "prettier.configPath": "prettierrc.json",
+  // "prettier.configPath": "prettierrc.json",
 
   "files.eol": "\n",
   "editor.rulers": [80],
